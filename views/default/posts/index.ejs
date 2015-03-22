@@ -1,11 +1,30 @@
 <% for(var i=0;i<posts.length;i++) { %>
 	<div class="post">
-		<div class="header">
-			<h3><a href="<%= posts[i].permalink %>"><%= posts[i].title %></a></h3>
+		<div class="info-column">
+			<div class="date">
+				<%
+					var date = posts[i].created.toDateString().split(' ');
+					date.splice(0,1);
+				%>
+				<span><%= date[0]; %></span>
+				<span><%= date[1]; %></span>
+				<span><%= date[2]; %></span>
+			</div>
+			<div class="comments">
+				<span>0</span>
+				<span><small>Comments</small></span>
+			</div>
 		</div>
-		<div class="body">
-			<%= posts[i].content %>
+		<div class="content-column">
+			<div class="header">
+				<h3><a href="<%= posts[i].permalink %>"><%= posts[i].title %></a> <small>by Admin</small></h3>
+			</div>
+			<div class="body">
+				<%- posts[i].content %>
+			</div>
+	  		<div class="footer">
+	  			<span></span>
+	  		</div>
 		</div>
-  		<div class="footer"><span><%= posts[i].created.toString() %></span></div>
 	</div>
 <% } %>
