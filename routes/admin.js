@@ -27,7 +27,7 @@ router.get('/createuser', function(req, res, next) {
 	var user = {
 		name: 'Shannon K',
 		username: 'sowen',
-		password: md5('rednexr0cks'),
+		password: md5('password'),
 		signature:'For the Lulz',
 		updated:new Date(),
 		created:new Date()
