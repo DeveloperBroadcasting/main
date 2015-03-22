@@ -95,7 +95,9 @@ router.get('/post/:id', function(req, res, next) {
 	Posts.findOne({
 		_id: id
 	}, function(err, post) {
-		res.render('default/index', { sidebar:'Soon', body: 'test' });
+		res.render('default/posts/single', { post:post }, function(err, body) {
+			res.render('default/index', { sidebar:'Soon', body: body });
+		})
 	})
 })
 
@@ -105,7 +107,10 @@ router.get('*', function(req, res, next) {
 	Posts.findOne({
 		permalink: req.path
 	}, function(err, post) {
-		res.render('default/index', { sidebar:'Soon', body: 'test' });
+		res.render('default/posts/single', { post:post }, function(err, body) {
+			console.log(err);
+			res.render('default/index', { sidebar:'Soon', body: body });
+		})
 	})
 })
 
