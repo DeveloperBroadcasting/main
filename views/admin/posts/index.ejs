@@ -1,0 +1,13 @@
+<% for(var i=0;i<posts.length;i++) { %>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><%= posts[i].title %></h3>
+			<a href="/admin/post/edit/<%= posts[i]._id %>">Edit</a>
+			<a href="/admin/post/remove/<%= posts[i]._id %>">Remove</a>
+		</div>
+		<div class="panel-body">
+			<%= posts[i].content %>
+		</div>
+  		<div class="panel-footer"><%= posts[i].created.toString() %></div>
+	</div>
+<% } %>
