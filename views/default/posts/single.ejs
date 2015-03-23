@@ -10,7 +10,7 @@
 			<span><%= date[2]; %></span>
 		</div>
 		<div class="comments">
-			<span>0</span>
+			<span><%= post.comments.length %></span>
 			<span><small>Comments</small></span>
 		</div>
 	</div>
@@ -38,9 +38,12 @@
 		<div style="width:500px;float:left;">
 			<label>Comment</label>
 			<textarea name="comment"></textarea>
+			<label>Captcha</label><input type="text" name="captcha" />
 			<button type="submit">Comment!</button>
 		</div>
 	</form>
+	<img id="captcha" src="/captcha" />
+	<button onclick="javascript:document.getElementById('captcha').src = '/captcha?' + new Date().getTime();">Refresh</button>
 </div>
 <% if(post.comments) for(var i=0;i<post.comments.length;i++) { %>
 <div class="comment">

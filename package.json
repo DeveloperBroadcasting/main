@@ -13,6 +13,7 @@
     "express-session": "^1.10.4",
     "mongodb": "^1.4.35",
     "morgan": "~1.5.1",
+    "node-captcha": "^0.2.1",
     "serve-favicon": "~2.2.0"
   }
 }

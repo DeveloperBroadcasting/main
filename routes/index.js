@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
+var captcha = require('node-captcha');
 
 // Mongo Types
 var ObjectID = require('mongodb').ObjectID;
@@ -36,6 +37,14 @@ router.get('/createuser', function(req, res, next) {
 	}
 	Users.insert(user, function(err, results) {
 		res.send(results);
+	})
+})
+
+router.get('/captcha', function(req, res, next) {
+	captcha({fileMode:2}, function(text, data) {
+		req.session.captcha = text;
+		console.log('captcha text', text)
+		res.end(data);
 	})
 })
 
@@ -128,6 +137,10 @@ router.get('*', function(req, res, next) {
 
 
 router.post('/post/:id', function(req, res, next) {
+	if(req.session.captcha!==req.body.captcha) {
+		res.redirect(req.path);
+		return;
+	}
 	var id = new ObjectID(req.params.id);
 	Posts.findOne({
 		_id: id
@@ -170,6 +183,10 @@ router.post('/post/:id', function(req, res, next) {
 })
 // Single Post View using permalink
 router.post('*', function(req, res, next) {
+	if(req.session.captcha!==req.body.captcha) {
+		res.redirect(req.path);
+		return;
+	}
 	Posts.findOne({
 		permalink: req.path
 	}, function(err, post) {
