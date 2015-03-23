@@ -10,17 +10,13 @@
 			<div class="content">
 				<%- body %>
 			</div>
-			<div class="sidebar">
-				<% include sidebar %>
-			</div>
-			<div class="sidebar">
-				<% include sidebar %>
-			</div>
-			<div class="sidebar">
-				<% include sidebar %>
-			</div>
-			<div class="sidebar">
-				<% include sidebar %>
+			<div class="sidebar-content">
+				<div class="sidebar">
+					<% include sidebars/streams %>
+				</div>
+				<div class="sidebar">
+					<% include sidebars/static %>
+				</div>
 			</div>
 		</div>
 	</body>

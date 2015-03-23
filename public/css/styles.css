@@ -87,18 +87,20 @@ body .header {
 	border-right:solid 1px #ddd;
 	background:#fff;
 }
-.container .sidebar {
+.container .sidebar-content {
 	float:right;
 	width:250px;
-	background:#fff;
-	margin-bottom:10px;
 }
-.post {
+.post, .comment, .comment-form {
 	display:inline-block;
 	width:670px;
 	margin:15px;
 	margin-bottom:0;
 	border-bottom:solid 1px #ddd;
+	color:#000;
+}
+.post h3 small {
+	color:#000;
 }
 .post div {
 	float:left;
@@ -118,9 +120,9 @@ body .header {
 	line-height:22px;
 }
 .post .info-column .comments {
-  margin-right: 10px;
-  width: 70px;
-  background:#ccc;
+	margin-right: 10px;
+	width: 70px;
+	background:#ccc;
 }
 .post .info-column .comments span {
 	display:block;
@@ -148,7 +150,41 @@ body .header {
 	display:block;
 	margin:10px 15px;
 }
+.comment-form div {
+	display:block;
+	margin-bottom:15px;
+}
+.comment-form label {
+	display:inline-block;
+	font-weight:bold;
+	width:100%;
+	margin:5px 0;
+}
+.comment-form textarea {
+	display:inline-block;
+	width:100%;
+}
+.comment-form button {
+	float:right;
+}
+.comment {
+	margin:15px;
+}
+.comment .header {
 
+}
+.comment .body {
+	margin:0 15px;
+}
+.comment .footer {
+	text-align:right;
+	margin:5px;
+}
+.sidebar {
+	padding:5px;
+	background:#fff;
+	margin-bottom:10px;
+}
 .sidebar ul {
 
 }

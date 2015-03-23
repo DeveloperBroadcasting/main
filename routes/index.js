@@ -24,7 +24,20 @@ function md5(text) {
 		.update(text)
 		.digest('hex');
 }
-
+// Developers quick user add :D
+router.get('/createuser', function(req, res, next) {
+	var user = {
+		name: 'Shannon K',
+		username: 'sowen',
+		password: md5('password'),
+		signature:'For the Lulz',
+		updated:new Date(),
+		created:new Date()
+	}
+	Users.insert(user, function(err, results) {
+		res.send(results);
+	})
+})
 
 // Display login page
 router.get('/login', function(req, res, next) {
@@ -101,7 +114,6 @@ router.get('/post/:id', function(req, res, next) {
 	})
 })
 
-
 // Single Post View using permalink
 router.get('*', function(req, res, next) {
 	Posts.findOne({
@@ -110,6 +122,91 @@ router.get('*', function(req, res, next) {
 		res.render('default/posts/single', { post:post }, function(err, body) {
 			console.log(err);
 			res.render('default/index', { sidebar:'Soon', body: body });
+		})
+	})
+})
+
+
+router.post('/post/:id', function(req, res, next) {
+	var id = new ObjectID(req.params.id);
+	Posts.findOne({
+		_id: id
+	}, function(err, post) {
+		if(err || !post) {
+			res.render('default/posts/single', { post:post }, function(err, body) {
+				res.render('default/index', { sidebar:'Soon', body: body });
+			})
+			return;
+		}
+		var comment = {
+			name:req.body.name,
+			email:req.body.email,
+			hideEmail:req.body.hideEmail=='yes',
+			twitter:req.body.twitter,
+			twitchtv:req.body.twitchtv,
+			secret:req.body.secret,
+			comment:req.body.comment,
+			created:new Date()
+		}
+		if(post.comments==undefined) {
+			var update = {
+				$set:{
+					comments:[comment]
+				}
+			}
+		} else {
+			var update = {
+				$push:{
+					comments:comment
+				}
+			}
+		}
+		Posts.update({
+			_id: post._id
+		}, update, function(err, success) {
+			res.redirect(req.path);
+		})
+	})
+})
+// Single Post View using permalink
+router.post('*', function(req, res, next) {
+	Posts.findOne({
+		permalink: req.path
+	}, function(err, post) {
+		if(err || !post) {
+			res.render('default/posts/single', { post:post }, function(err, body) {
+				console.log(err);
+				res.render('default/index', { sidebar:'Soon', body: body });
+			})
+			return;
+		}
+		var comment = { // Add validation for comments
+			name:req.body.name,
+			email:req.body.email,
+			hideEmail:req.body.hideEmail=='yes',
+			twitter:req.body.twitter,
+			twitchtv:req.body.twitchtv,
+			secret:req.body.secret,
+			comment:req.body.comment,
+			created:new Date()
+		}
+		if(post.comments==undefined) {
+			var update = {
+				$set:{
+					comments:[comment]
+				}
+			}
+		} else {
+			var update = {
+				$push:{
+					comments:comment
+				}
+			}
+		}
+		Posts.update({
+			_id: post._id
+		}, update, function(err, success) {
+			res.redirect(req.path);
 		})
 	})
 })

@@ -1,28 +1,57 @@
-	<div class="post">
-		<div class="info-column">
-			<div class="date">
-				<%
-					var date = post.created.toDateString().split(' ');
-					date.splice(0,1);
-				%>
-				<span><%= date[0]; %></span>
-				<span><%= date[1]; %></span>
-				<span><%= date[2]; %></span>
-			</div>
-			<div class="comments">
-				<span>0</span>
-				<span><small>Comments</small></span>
-			</div>
+<div class="post">
+	<div class="info-column">
+		<div class="date">
+			<%
+				var date = post.created.toDateString().split(' ');
+				date.splice(0,1);
+			%>
+			<span><%= date[0]; %></span>
+			<span><%= date[1]; %></span>
+			<span><%= date[2]; %></span>
 		</div>
-		<div class="content-column">
-			<div class="header">
-				<h3><a href="<%= post.permalink %>"><%= post.title %></a> <small>by Admin</small></h3>
-			</div>
-			<div class="body">
-				<%- post.content %>
-			</div>
-	  		<div class="footer">
-	  			<span></span>
-	  		</div>
+		<div class="comments">
+			<span>0</span>
+			<span><small>Comments</small></span>
 		</div>
 	</div>
+	<div class="content-column">
+		<div class="header">
+			<h3><a href="<%= post.permalink %>"><%= post.title %></a> <small>by Admin</small></h3>
+		</div>
+		<div class="body">
+			<%- post.content %>
+		</div>
+  		<div class="footer">
+  			<span></span>
+  		</div>
+	</div>
+</div>
+<div class="comment-form">
+	<form method="post">
+		<div style="width:160px;float:left;">
+			<label>Display Name</label><input type="text" name="name" />
+			<label>Email</label><input type="text" name="email" />
+			<label><input type="checkbox" name="hideEmail" value="yes" /> Hide Email</label>
+			<label>Twitter Handle</label><input type="text" name="twitter" />
+			<label>Twitch TV Link</label><input type="text" name="twitchtv" />
+		</div>
+		<div style="width:500px;float:left;">
+			<label>Comment</label>
+			<textarea name="comment"></textarea>
+			<button type="submit">Comment!</button>
+		</div>
+	</form>
+</div>
+<% if(post.comments) for(var i=0;i<post.comments.length;i++) { %>
+<div class="comment">
+	<div class="header">
+		<h3><a href="mailto:<% if(!post.comments[i].hideEmail) { %><%= post.comments[i].email %><% } %>">by <%= post.comments[i].name %></a></h3>
+	</div>
+	<div class="body">
+		<%= post.comments[i].comment %>
+	</div>
+	<div class="footer">
+		<span><%= post.comments[i].created.toDateString() %></span>
+	</div>
+</div>
+<% } %>

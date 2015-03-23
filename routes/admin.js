@@ -22,21 +22,6 @@ router.get('/', function(req, res, next) {
   res.render('admin/index', {  err:null, body:'soon' });
 });
 
-// Developers quick user add :D
-router.get('/createuser', function(req, res, next) {
-	var user = {
-		name: 'Shannon K',
-		username: 'sowen',
-		password: md5('password'),
-		signature:'For the Lulz',
-		updated:new Date(),
-		created:new Date()
-	}
-	Users.insert(user, function(err, results) {
-		res.send(results);
-	})
-})
-
 router.get('/posts', function(req, res, next) {
 	var page = parseInt(req.query.page);
 	var limit = parseInt(req.query.limit) || 10;
@@ -169,8 +154,10 @@ router.post('/post/add', function(req, res, next) {
 		permalink: req.body.permalink,
 	    title: req.body.title,
 	    content: req.body.content,
+	    disableComments: false,
 		tags: [],
 		files: [],
+		comments: [],
 		updated: new Date(),
 	    created: new Date(),
 	    user: req.user._id.toString()
@@ -184,7 +171,7 @@ router.post('/post/add', function(req, res, next) {
 		}
 		res.redirect('/admin/posts');
 	})
-});
+});                                          
 
 router.post('/post/edit/:id', function(req, res, next) {
 	var id = new ObjectID(req.params.id);
@@ -192,8 +179,10 @@ router.post('/post/edit/:id', function(req, res, next) {
 		permalink: req.body.permalink,
 	    title: req.body.title,
 	    content: req.body.content,
+	    disableComments: false,
 		tags: [],
 		files: [],
+		comments: [],
 		updated: new Date(),
 	    user: req.user._id.toString()
 	}
