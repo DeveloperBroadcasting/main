@@ -5,8 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var admin = require('./routes/admin');
+var routes = require('./configs/routes');
 
 var MongoClient = require('./mongoClient');
 var ObjectID = require('mongodb').ObjectID;
@@ -30,9 +29,13 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+
+// Use for POST data if any gets submitted over
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
+// Express session initializer :D
 app.use(session({
   genid: function(req) {
     var text = "";
@@ -44,7 +47,10 @@ app.use(session({
     return text;
   },
   secret: 'lulzAndStuff9903'
-}))
+}));
+
+// Session middleware for giving a user object
+// in the request object if session is found
 app.use(function(req, res, next) {
   if(req.session && req.session._id) {
     Users.findOne({
@@ -58,12 +64,14 @@ app.use(function(req, res, next) {
   next();
 })
 
+
+// Check to see if public file exists, if not move onto routes
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', admin);
+// Use routes
 app.use('/', routes);
 
-// catch 404 and forward to error handler
+// If no routes found catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;

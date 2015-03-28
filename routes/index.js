@@ -40,13 +40,13 @@ router.get('/createuser', function(req, res, next) {
 	})
 })
 
-router.get('/captcha', function(req, res, next) {
+/*router.get('/captcha', function(req, res, next) {
 	captcha({fileMode:2}, function(text, data) {
 		req.session.captcha = text;
 		console.log('captcha text', text)
 		res.end(data);
 	})
-})
+})*/
 
 // Display login page
 router.get('/login', function(req, res, next) {
@@ -108,7 +108,7 @@ router.get('/', function(req, res, next) {
 				res.render('default/index', { sidebar:'Soon', body: body });
 			})
 
-		})
+		});
 });
 
 // Single Post View using id
@@ -124,7 +124,7 @@ router.get('/post/:id', function(req, res, next) {
 })
 
 // Single Post View using permalink
-router.get('*', function(req, res, next) {
+router.get('/[a-z0-9-_]+', function(req, res, next) {
 	Posts.findOne({
 		permalink: req.path
 	}, function(err, post) {
@@ -137,10 +137,10 @@ router.get('*', function(req, res, next) {
 
 
 router.post('/post/:id', function(req, res, next) {
-	if(req.session.captcha!==req.body.captcha) {
+	/*if(req.session.captcha!==req.body.captcha) {
 		res.redirect(req.path);
 		return;
-	}
+	}*/
 	var id = new ObjectID(req.params.id);
 	Posts.findOne({
 		_id: id
@@ -183,10 +183,10 @@ router.post('/post/:id', function(req, res, next) {
 })
 // Single Post View using permalink
 router.post('*', function(req, res, next) {
-	if(req.session.captcha!==req.body.captcha) {
+	/*if(req.session.captcha!==req.body.captcha) {
 		res.redirect(req.path);
 		return;
-	}
+	}*/
 	Posts.findOne({
 		permalink: req.path
 	}, function(err, post) {

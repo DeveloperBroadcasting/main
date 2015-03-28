@@ -11,7 +11,7 @@
 				<span><%= date[2]; %></span>
 			</div>
 			<div class="comments">
-				<span><%= posts[i].comments.length %></span>
+				<span><%= (posts[i].comments?posts[i].comments.length:0) %></span>
 				<span><small>Comments</small></span>
 			</div>
 		</div>

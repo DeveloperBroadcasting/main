@@ -10,7 +10,7 @@
 			<span><%= date[2]; %></span>
 		</div>
 		<div class="comments">
-			<span><%= post.comments.length %></span>
+			<span><%= (post.comments?post.comments.length:0) %></span>
 			<span><small>Comments</small></span>
 		</div>
 	</div>
@@ -28,22 +28,39 @@
 </div>
 <div class="comment-form">
 	<form method="post">
-		<div style="width:160px;float:left;">
-			<label>Display Name</label><input type="text" name="name" />
-			<label>Email</label><input type="text" name="email" />
-			<label><input type="checkbox" name="hideEmail" value="yes" /> Hide Email</label>
-			<label>Twitter Handle</label><input type="text" name="twitter" />
-			<label>Twitch TV Link</label><input type="text" name="twitchtv" />
+		<div class="comment-input">
+			<div class="col">
+				<label>Display Name</label>
+				<input type="text" name="name" placeholder="John Doe" />
+			</div>
+			<div class="col">
+				<label>Email <small>Hide? <input type="checkbox" name="hideEmail" value="yes" /></small></label>
+				<input type="text" name="email" placeholder="web@email.net" />
+			</div>
+			<div class="comment-box">
+				<textarea name="comment" placeholder="Hello World!"></textarea>
+			</div>
+			<div class="col">
+				<label>Twitter Handle</label>
+				<input type="text" name="twitter" placeholder="@twitter" />
+			</div>
+			<div class="col">
+				<label>Twitch TV Link</label>
+				<input type="text" name="twitchtv" placeholder="/twitch_user" />
+			</div>
 		</div>
-		<div style="width:500px;float:left;">
-			<label>Comment</label>
-			<textarea name="comment"></textarea>
-			<label>Captcha</label><input type="text" name="captcha" />
-			<button type="submit">Comment!</button>
+		<div class="comment-captcha">
+			<div>
+				<img id="captcha" src="/captcha" />
+				<button class="captcha-refresh" type="button" onclick="javascript:document.getElementById('captcha').src = '/captcha?' + new Date().getTime();">Refresh</button>
+			</div>
+			<label>Captcha</label>
+			<input type="text" name="captcha" />
+			<div>
+				<button class="comment-submit" type="submit">Comment!</button>
+			</div>
 		</div>
 	</form>
-	<img id="captcha" src="/captcha" />
-	<button onclick="javascript:document.getElementById('captcha').src = '/captcha?' + new Date().getTime();">Refresh</button>
 </div>
 <% if(post.comments) for(var i=0;i<post.comments.length;i++) { %>
 <div class="comment">
