@@ -1,66 +1,60 @@
 <% if(err) { %>
 	<div><%= err %></div>
 <% } %>
-<div class="panel panel-default">
-	<form method="post">
-	<div class="panel-heading">
-		<h3 class="panel-title">Title:<input name="title" value="<%= post.title %>" /></h3>
-		Permalink: <input name="permalink" value="<%= post.permalink %>" />
-		<button type="submit">Save</button>
-	</div>
-	<div class="panel-body">
-		Content:
-		<textarea name="content"><%= post.content %></textarea>
-	</div>
-	<!-- For single content -->
-	<div class="panel-footer">
-		<ul class="nav nav-tabs" role="tablist">
-			<li class="active"><a href="#comments" rol="tab" data-toggle="tab">Comments</a></li>
-			<li><a href="#media" rol="tab" data-toggle="tab">Media</a></li>
-			<li><a href="#info" rol="tab" data-toggle="tab">Info</a></li>
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane active" id="comments">
-
-			</div>
-			<div class="tab-pane" id="media">
-				<div class="row">
-					<div class="col-xs-4 col-md-2">
-						<a href="#" class="thumbnail">
-							<img src="#" style="width:80px;height:80px;">
-						</a>
-					</div>
-					<div class="col-xs-4 col-md-2">
-						<a href="#" class="thumbnail">
-							<img src="#" style="width:80px;height:80px;">
-						</a>
-					</div>
-					<div class="col-xs-4 col-md-2">
-						<a href="#" class="thumbnail">
-							<img src="#" style="width:80px;height:80px;">
-						</a>
-					</div>
-					<div class="col-xs-4 col-md-2">
-						<a href="#" class="thumbnail">
-							<img src="#" style="width:80px;height:80px;">
-						</a>
-					</div>
-					<div class="col-xs-4 col-md-2">
-						<a href="#" class="thumbnail">
-							<img src="#" style="width:80px;height:80px;">
-						</a>
-					</div>
-					<div class="col-xs-4 col-md-2">
-						<a href="#" class="thumbnail">
-							<img src="#" style="width:80px;height:80px;">
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane" id="info">
-				<textarea name="info"></textarea>
-			</div>
+<div class="post">
+	<div class="info-column">
+		<div class="date">
+			<%
+				if(post.created) {
+				var date = post.created.toDateString().split(' ');
+				date.splice(0,1);
+			%>
+			<span><%= date[0]; %></span>
+			<span><%= date[1]; %></span>
+			<span><%= date[2]; %></span>
+			<% } %>
+		</div>
+		<div class="comments">
+			<span><%= (post.comments?post.comments.length:0) %></span>
+			<span><small>Comments</small></span>
 		</div>
 	</div>
-	</form>
+	<div class="content-column">
+		<form method="post">
+		<div class="header">
+			<h3>Title:<input name="title" value="<%= post.title %>" /></h3>
+		Permalink: <input name="permalink" value="<%= post.permalink %>" /> <small>by Admin</small></h3>
+		</div>
+		<div class="body">
+			<textarea name="content"><%= post.content %></textarea>
+		</div>
+		<button type="submit">Add</button>
+		</form>
+  		<div class="footer">
+  			<span></span>
+  		</div>
+	</div>
 </div>
+<% if(post.comments) for(var i=0;i<post.comments.length;i++) { %>
+<div class="comment">
+	<div class="header">
+		<h3>
+			<a href="mailto:<% if(!post.comments[i].hideEmail) { %><%= post.comments[i].email %><% } %>">by <%= post.comments[i].name %></a>
+			<small>
+				<% if(post.comments[i].twitter) { %>
+				<a href="https://twitter.com/<%= post.comments[i].twitter.substr(1) %>" target="_blank"><%= post.comments[i].twitter %></a>
+				<% } %>
+				<% if(post.comments[i].twitchtv) { %>
+				<a href="http://www.twitch.tv<%= post.comments[i].twitter.substr(1) %>" target="_blank"><%= post.comments[i].twitchtv %></a>
+				<% } %>
+			<a href="/admin/post/comment/<%= post._id %>/remove/<%= post.comments[i]._id %>/" style="float:right;">Remove</a></small>
+		</h3>
+	</div>
+	<div class="body">
+		<%= post.comments[i].comment %>
+	</div>
+	<div class="footer">
+		<span><%= post.comments[i].created.toDateString() %></span>
+	</div>
+</div>
+<% } %>

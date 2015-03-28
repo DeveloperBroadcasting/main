@@ -75,6 +75,25 @@ controller.editPostGET = function(req, res, next) {
 	})
 }
 
+controller.removePostComment = function(req, res, next) {
+	var id = new ObjectID(req.params.id);
+	var comment = new ObjectID(req.params.i);
+	Posts.update({
+		_id:id
+	}, {
+		$pull:{
+			"comments":{
+				_id:comment
+			}
+		}
+	}, function(err, data) {
+		console.log(err);
+		console.log(data);
+		res.redirect('/admin/post/edit/'+req.params.id);
+	})
+	// redirect to /admin/post/edit/:id
+}
+
 controller.validatePost = function(req, res, next) {
 	var PostSchema = {
 		title:{
@@ -148,12 +167,13 @@ controller.addPostPOST = function(req, res, next) {
 	    title: req.body.title,
 	    content: req.body.content,
 	    disableComments: false,
+	    hidden: false,
 		tags: [],
 		files: [],
 		comments: [],
 		updated: new Date(),
 	    created: new Date(),
-	    user: req.user._id.toString()
+	    user: new ObjectID(req.user._id)
 	}
 	Posts.insert(post, function(error, result) {
 		if(error) {
@@ -173,11 +193,12 @@ controller.editPostPOST = function(req, res, next) {
 	    title: req.body.title,
 	    content: req.body.content,
 	    disableComments: false,
+	    hidden: false,
 		tags: [],
 		files: [],
 		comments: [],
 		updated: new Date(),
-	    user: req.user._id.toString()
+	    user: new ObjectID(req.user._id)
 	}
 	Posts.update({
 		_id:id

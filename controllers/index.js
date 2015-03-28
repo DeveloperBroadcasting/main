@@ -155,6 +155,7 @@ controller.postIdPOST = function(req, res, next) {
 			return;
 		}
 		var comment = {
+			_id:new ObjectID(),
 			name:req.body.name,
 			email:req.body.email,
 			hideEmail:req.body.hideEmail=='yes',
@@ -201,6 +202,7 @@ controller.permalinkPOST = function(req, res, next) {
 			return;
 		}
 		var comment = { // Add validation for comments
+			_id:new ObjectID(),
 			name:req.body.name,
 			email:req.body.email,
 			hideEmail:req.body.hideEmail=='yes',

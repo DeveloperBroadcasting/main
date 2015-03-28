@@ -179,7 +179,9 @@ body .header {
 	float:left;
 }
 .comment-form .comment-submit {
-	margin:15px auto;
+	margin:15px 0;
+	width: 100%;
+	padding: 8px;
 }
 .comment-form label {
 	display:inline-block;
